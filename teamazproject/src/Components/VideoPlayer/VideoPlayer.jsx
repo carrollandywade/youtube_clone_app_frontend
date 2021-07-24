@@ -7,7 +7,9 @@ class VideoPlayer extends Component {
         this.state = { 
     
             vidoes: [
-                {video_id:''}
+                {
+                    video_id: ''
+                }
             ], 
 
             comment: [
@@ -19,7 +21,7 @@ class VideoPlayer extends Component {
     }
 
     componentDidMount(){
-        this.getVideod();
+        this.getVideoId();
     }
 
     getVideoId = async () => {
@@ -40,7 +42,7 @@ class VideoPlayer extends Component {
                 width="640" 
                 height="360" 
                 title="Main Video Player"
-                src={`https://www.youtube.com/embed/${this.state.videos.video_id}?autoplay=0&origin=http://example.com`}
+                src={`https://www.youtube.com/embed/${this.state.vidoes.video_id}?autoplay=0&origin=http://example.com`}
                 padding="0">
                 </iframe>
                 </container>
