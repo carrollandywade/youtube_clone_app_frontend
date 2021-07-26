@@ -9,7 +9,8 @@ class VideoSearch extends Component {
         super(props);
         this.state = {
             videos: [],
-            search_input: ''
+            search_input: '',
+            selected_video: ''
         }
     }
 
@@ -29,9 +30,11 @@ class VideoSearch extends Component {
     }
 
     searchVideos = async () => {
-        let result = await axios.get(`https://www.googleapis.com/youtube/v3/search/?q=${this.state.search_input}&type=video&videoDuration=any&maxResults=25&key=AIzaSyBTe5Zf-dRotWKLeNJDGIpyzHPatfCGRIc`);
+        let result = await axios.get(`https://www.googleapis.com/youtube/v3/search/?q=${this.state.search_input}&type=video&videoDuration=any&maxResults=5&key=AIzaSyBTe5Zf-dRotWKLeNJDGIpyzHPatfCGRIc`);
         this.setState({
-            videos: result.data
+            videos: result.data,
+            selected_video: result.data.items[0].id.videoId,
+            search_input: this.state.search_input
         });
         console.log(this.state.videos)
         this.displayVideos()
@@ -41,17 +44,18 @@ class VideoSearch extends Component {
     displayVideos = async (event) => {
         console.log("State - Videos: ",this.state.videos)
         console.log("State - video: ",this.state.videos.items[0].id.videoId)
-        let res = await axios.get(`https://www.youtube.com/embed/${this.state.videos.items[0].id.videoId}?autoplay=1&origin=http://example.com`)
-        console.log(res.data.items.id.videoId)
-        this.setState({
-            thumbnails: res.data
-           });
-        this.state.videos.map((video, videoId) => {
-           return(
-            //    key = video_id
-               this.state.video.thumbnails
-           )
-        });
+        // let res = await axios.get(`https://www.youtube.com/embed/${this.state.videos.items[0].id.videoId}?autoplay=1&origin=http://example.com`)
+        // console.log("Player Response: ", res)
+        // console.log(res.data.items.id.videoId)
+        // this.setState({
+        //     thumbnails: res.data
+        //    });
+        // this.state.videos.map((video, videoId) => {
+        //    return(
+        //     //    key = video_id
+        //        this.state.video.thumbnails
+        //    )
+        // });
     }
 
     render() {
@@ -62,7 +66,7 @@ class VideoSearch extends Component {
                         <input type="text" name="search_input"  onChange={this.onChangeHandler} value={this.state.search_input} placeholder="Search for video here." />
                         <button type="submit" className="btn btn-primary w-md-25">Search</button>
                     </form>
-                    <iframe src={`https://www.youtube.com/embed/${this.state.videos.items}?autoplay=1&origin=http://example.com`}></iframe>
+                    <iframe src={`https://www.youtube.com/embed/${this.state.selected_video}?autoplay=1&origin=http://example.com`}></iframe>
                 </div>
             </React.Fragment>
         )
