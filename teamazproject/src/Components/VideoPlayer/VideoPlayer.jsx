@@ -6,10 +6,8 @@ class VideoPlayer extends Component {
         super(props);
         this.state = { 
     
-            vidoes: [
-                {
-                    video_id: ''
-                }
+            videos: [
+                {videoId: '' }
             ], 
 
             comment: [
@@ -25,7 +23,7 @@ class VideoPlayer extends Component {
     }
 
     getVideoId = async () => {
-        let res = await axios.get(`https://www.googleapis.com/youtube/v3/search?q={this.state.videos.videoId}&key=API_KEY:AIzaSyCwMBHagNKMBnjxT_hCxAC1yGzU2M-W6II`)
+        let res = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${this.state.videos.videoId}&key=API_KEY:AIzaSyCwMBHagNKMBnjxT_hCxAC1yGzU2M-W6II`)
         console.log(res);
         this.setState({
             comment: res.data.items,
@@ -42,7 +40,7 @@ class VideoPlayer extends Component {
                 width="640" 
                 height="360" 
                 title="Main Video Player"
-                src={`https://www.youtube.com/embed/${this.state.vidoes.video_id}?autoplay=0&origin=http://example.com`}
+                src={`https://www.youtube.com/embed/${this.state.videos.videoId}?autoplay=0&origin=http://example.com`}
                 padding="0">
                 </iframe>
                 </container>
