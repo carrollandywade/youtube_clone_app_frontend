@@ -1,4 +1,3 @@
-  
 import React, {Component} from 'react';
 import axios from 'axios';
 import VideoSearch from './VideoSearch/videoSearch';
@@ -35,6 +34,7 @@ class App extends Component {
             selected_video: result.data.items[0].id.videoId,
             title: result.data.items[0].snippet.title,
             description: result.data.items[0].snippet.description,
+
         });
         console.log(this.state.selected_video)
     }
