@@ -3,6 +3,7 @@ import axios from 'axios';
 import VideoSearch from './VideoSearch/videoSearch';
 import VideoPlayer from './VideoPlayer/VideoPlayer';
 import DisplayDescription from './DisplayDescription/DisplayDescription';
+import RelatedVideos from './RelatedVideos/RelatedVideos';
 
 class App extends Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class App extends Component {
             videos: [],
             search_input: '',
             selected_video: '',
+            related_videos: [],
             related_video_0: '',
             related_video_1: '',
             related_video_2: '',
@@ -27,9 +29,9 @@ class App extends Component {
         this.defaultVideo()
     }
     defaultVideo = async () => {
-        let result = await axios.get(`https://www.googleapis.com/youtube/v3/search/?q=BkD2nN5275c$&type=video&videoDuration=any&maxResults=5&key=AIzaSyDPRvkeCRQj03kouGwoU9Vfs84NQDnOmUw`);
+        let result = await axios.get(`https://www.googleapis.com/youtube/v3/search/?q=BkD2nN5275c$&type=video&videoDuration=any&maxResults=5&key=AIzaSyDtojxK9wETeXnp40Hxzij5IOswBMfcGds`);
         this.setState({
-            videos: result.data,
+            videos: result.data.items,
             selected_video: result.data.items[0].id.videoId,
             // related_video_1: result.data.items[1].id.videoId,
         });
@@ -42,7 +44,7 @@ class App extends Component {
     searchVideos = async (search) => {
         console.log(search)
         console.log(this.state.search_input)
-        let result = await axios.get(`https://www.googleapis.com/youtube/v3/search/?q=${search}&type=video&videoDuration=any&maxResults=5&key=AIzaSyDPRvkeCRQj03kouGwoU9Vfs84NQDnOmUw&part=snippet`);
+        let result = await axios.get(`https://www.googleapis.com/youtube/v3/search/?q=${search}&type=video&videoDuration=any&maxResults=5&key=AIzaSyDtojxK9wETeXnp40Hxzij5IOswBMfcGds&part=snippet`);
         this.setState({
             videos: result.data,
             selected_video: result.data.items[0].id.videoId,
@@ -55,7 +57,7 @@ class App extends Component {
     }
 
     relatedVideos = async () => {
-        let result = await axios.get(`https://www.googleapis.com/youtube/v3/search/?relatedToVideoId=${this.state.selected_video}&type=video&videoDuration=any&maxResults=5&key=AIzaSyDPRvkeCRQj03kouGwoU9Vfs84NQDnOmUw&part=snippet`);
+        let result = await axios.get(`https://www.googleapis.com/youtube/v3/search/?relatedToVideoId=${this.state.selected_video}&type=video&videoDuration=any&maxResults=5&key=AIzaSyDtojxK9wETeXnp40Hxzij5IOswBMfcGds&part=snippet`);
         this.setState({
             related_video_1: result.data.items[0].id.videoId,
             related_video_1: result.data.items[1].id.videoId,
@@ -67,37 +69,22 @@ class App extends Component {
             thumbnail_video_2: result.data.items[2].snippet.thumbnails.default.url,
             thumbnail_video_3: result.data.items[3].snippet.thumbnails.default.url,
             thumbnail_video_4: result.data.items[4].snippet.thumbnails.default.url,
-
         })
-        console.log(this.state.related_video_0)
-        console.log(this.state.related_video_1)
-        console.log(this.state.related_video_2)
-        console.log(this.state.related_video_3)
-        console.log(this.state.related_video_4)
-        console.log(this.state.selected_video)
-        console.log(this.state.thumbnail_video_0)
-        console.log(this.state.thumbnail_video_1)
-        console.log(this.state.thumbnail_video_2)
-        console.log(this.state.thumbnail_video_3)
-        console.log(this.state.thumbnail_video_4)
+            console.log(this.state.videos)
     }
 
     render() { 
         return (  
             <React.Fragment>
                 <h1>Youtube Clone</h1>
-                <VideoSearch videos={this.state.videos} searchVideos={this.searchVideos}/>
-                <VideoPlayer default_video={this.state.selected_video}/>
-                <div>
-                    <img src={this.state.thumbnail_video_0} />
-                    <img src={this.state.thumbnail_video_1} />
-                    <img src={this.state.thumbnail_video_2} />
-                    <img src={this.state.thumbnail_video_3} />
-                    <img src={this.state.thumbnail_video_4} />
-                </div>
                 <VideoSearch videos={this.state.videos} searchVideos={this.searchVideos}  />
                 <VideoPlayer default_video={this.state.selected_video}  title={this.state.title} />
                 <DisplayDescription title={this.state.title} description={this.state.description}/>
+                <RelatedVideos related_thumbnail_0={this.state.thumbnail_video_0} 
+                                related_thumbnail_1={this.state.thumbnail_video_1} 
+                                related_thumbnail_2={this.state.thumbnail_video_2} 
+                                related_thumbnail_3={this.state.thumbnail_video_3} 
+                                related_thumbnail_4={this.state.thumbnail_video_4} />
             </React.Fragment>
         );
     }
