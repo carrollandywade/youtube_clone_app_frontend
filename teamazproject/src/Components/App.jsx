@@ -1,3 +1,6 @@
+// Paired programmed by Zachary and Andy 
+
+
 import React, { Component } from 'react';
 import axios from 'axios';
 import VideoSearch from './VideoSearch';
@@ -81,10 +84,8 @@ class App extends Component {
 					<img src= {youtube} alt="youtube logo" />
 				</center>
       </div>
-        
     );
   }
 }
-  
 
 export default App;

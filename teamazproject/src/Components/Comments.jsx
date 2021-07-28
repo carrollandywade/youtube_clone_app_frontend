@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import Reply from './Reply';
 import CommentForm from './CommentForm';
 
-
 class Comments extends Component{
     constructor(props){
         super(props);
@@ -24,7 +23,6 @@ class Comments extends Component{
         let newState = await this.getComments();
         this.setState(newState)
     }
-
 
     getComments = async () => {
         let response = await axios.get(`http://127.0.0.1:8000/comments/${this.props.videoId}`);
